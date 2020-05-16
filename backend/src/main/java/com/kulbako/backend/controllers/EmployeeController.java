@@ -1,6 +1,7 @@
 package com.kulbako.backend.controllers;
 
 import com.kulbako.backend.models.Employee;
+import com.kulbako.backend.requests.EmployeeDTO;
 import com.kulbako.backend.services.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,12 +9,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
-import java.util.List;
+import java.util.Set;
 
-//TODO: документация
-//TODO: логирование
 //TODO: хэширование
-@Slf4j @RestController @RequestMapping(path = "/employees")
+/**
+ * Обрабатывает запросы к url-у /employee.
+ * @author Артемий Кульбако
+ * @version 1.7
+ */
+@Slf4j @RestController @RequestMapping(path = "/employee")
 public class EmployeeController {
 
     private final EmployeeService empServ;
@@ -22,36 +26,54 @@ public class EmployeeController {
         this.empServ = employeeService;
     }
 
+    /**
+     * Добавляет запись о работнике в БД.
+     * @param addable новый работник.
+     * @return http-код, описывающий результат операции.
+     */
     @PutMapping
-    private ResponseEntity<String> add(@Valid @RequestBody Employee addable) {
+    public ResponseEntity<String> add(@Valid @RequestBody EmployeeDTO addable) {
         try {
-            empServ.add(addable);
+            empServ.add(addable.getDepartmentId(), addable.getEmployee());
             return new ResponseEntity<>("Работник добавлен в БД", HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>("Такой работник уже существует", HttpStatus.BAD_REQUEST);
         }
     }
 
+    /**
+     * Удаляет запись о работнике из БД.
+     * @param removable удаляемый работник.
+     * @return http-код, описывающий результат операции.
+     */
     @DeleteMapping
-    private ResponseEntity<String> remove(@Valid @RequestBody Employee removable) {
+    public ResponseEntity<String> remove(@Valid @RequestBody EmployeeDTO removable) {
         try {
-            empServ.remove(removable);
+            empServ.remove(removable.getDepartmentId(), removable.getEmployee());
             return new ResponseEntity<>("Работник удалён из БД", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Такой работник не существует", HttpStatus.NOT_FOUND);
         }
     }
 
+    /**
+     * Модифицирует запись о работнике.
+     * @param modifiable модифицируемый работник.
+     * @return http-код, описывающий результат операции.
+     */
     @PostMapping
-    private ResponseEntity<String> modify(@Valid @RequestBody Employee modifiable) {
+    public ResponseEntity<String> modify(@Valid @RequestBody EmployeeDTO modifiable) {
         try {
-            empServ.modify(modifiable);
+            empServ.modify(modifiable.getEmployee());
             return new ResponseEntity<>("Данные работника изменены", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Такой работник не существует", HttpStatus.NOT_FOUND);
         }
     }
 
+    /**
+     * Возвращает всех работников.
+     */
     @GetMapping
-    private ResponseEntity<List<Employee>> getAll() { return new ResponseEntity<List<Employee>>(empServ.getAll(), HttpStatus.OK); }
+    public ResponseEntity<Set<Employee>> getAll() { return new ResponseEntity<>(empServ.getAll(), HttpStatus.OK); }
 }

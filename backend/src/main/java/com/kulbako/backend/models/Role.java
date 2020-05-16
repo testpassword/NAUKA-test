@@ -1,7 +1,12 @@
 package com.kulbako.backend.models;
 
+/**
+ * Список доступных профессий для работников.
+ * @author Артемий Кульбако
+ * @version 1.1
+ */
 public enum Role {
-    ADMIN(false), DEVELOPER(false), MANAGER(false);
+    TIMEKEEPER(false), DEPARTMENT_ADMIN(false), EMPLOYEE_ADMIN(false);
 
     private boolean isRemote;
 

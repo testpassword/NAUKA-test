@@ -1,0 +1,6 @@
+PUT localhost:8088/department
+Content-Type: application/json
+
+{
+  "name": "TESTERS"
+}

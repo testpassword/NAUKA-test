@@ -1,40 +1,67 @@
 package com.kulbako.backend.models;
 
 import lombok.Data;
-
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
+import java.util.Objects;
 
-//TODO: документация на все классы и пакеты
-//TODO: тесты
-@Data @Entity @Table(name = "users")
+/**
+ * Работник департамента.
+ * @author Артемий Кульбако
+ * @version 1.6
+ */
+@Data @Entity @Table(name = "employees")
 public class Employee implements Serializable {
 
     @Transient private static final long serialVersionUID = 4L;
-    @Id @NotNull @Email private String email;
+    @Id @GeneratedValue(strategy=GenerationType.AUTO) long id;
     //TODO: аватар
+    //TODO: email field
     @NotNull private String name;
     @NotNull private String surname;
     @NotNull private Date bornDate;
-    @Embedded private Address residency;
+    private String residency;
     @Enumerated(EnumType.STRING) private Role role;
-    //TODO: +3 поля на усмотрение
+    @ElementCollection private List<String> days;
+
+    public Employee(@NotNull String name, @NotNull String surname, @NotNull Date bornDate, String residency, Role role) {
+        this.name = name;
+        this.surname = surname;
+        this.bornDate = bornDate;
+        this.residency = residency;
+        this.role = role;
+    }
 
     public Employee() {}
     //get и set методы определены аннотацией lombok
-    //TODO: equals, hashCode, toString
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Employee)) return false;
+        Employee employee = (Employee) o;
+        return id == employee.id &&
+                Objects.equals(name, employee.name) &&
+                Objects.equals(surname, employee.surname) &&
+                Objects.equals(residency, employee.residency) &&
+                role == employee.role;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, surname, residency, role);
+    }
 
     @Override
     public String toString() {
         return "User{" +
-                "email = " + email +
+                "id = " + id +
                 ", name = " + name +
                 ", surname = " + surname +
                 ", bornDate = " + bornDate +
-                ", residency = " + residency +
                 ", role = " + role.toString() + '}';
     }
 }
