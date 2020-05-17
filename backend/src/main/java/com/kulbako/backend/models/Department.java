@@ -15,6 +15,7 @@ import java.util.Set;
 @Data @Entity @Table(name = "departments")
 public class Department implements Serializable {
 
+    @Transient private static final long serialVersionUID = 4L;
     @Id @GeneratedValue(strategy=GenerationType.AUTO) long id;
     @NotNull private String name;
     @OneToMany private Set<Employee> employees;
