@@ -4,9 +4,9 @@ Content-Type: application/json
 {
     "departmentId": "1",
     "employee": {
-        "name": "a",
+        "name": "abc",
          "surname": "b",
-         "bornDate": "2020-05-15",
+         "bornDate": "343445",
          "residency": "d",
          "role": "TIMEKEEPER",
          "days": []

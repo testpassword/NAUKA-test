@@ -47,9 +47,9 @@ public class EmployeeController {
      * @return http-код, описывающий результат операции.
      */
     @DeleteMapping
-    public ResponseEntity<String> remove(@Valid @RequestBody EmployeeDTO removable) {
+    public ResponseEntity<String> remove(@Valid @RequestBody Employee removable) {
         try {
-            empServ.remove(removable.getDepartmentId(), removable.getEmployee());
+            empServ.remove(removable);
             return new ResponseEntity<>("Работник удалён из БД", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Такой работник не существует", HttpStatus.NOT_FOUND);

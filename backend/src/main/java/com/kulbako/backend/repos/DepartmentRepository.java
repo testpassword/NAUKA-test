@@ -1,6 +1,7 @@
 package com.kulbako.backend.repos;
 
 import com.kulbako.backend.models.Department;
+import com.kulbako.backend.models.Employee;
 import org.springframework.data.repository.CrudRepository;
 import java.util.Set;
 
@@ -42,4 +43,6 @@ public interface DepartmentRepository extends CrudRepository<Department, Long> {
      * @return сущность представляющую работника.
      */
     Department getById(long id);
+
+    Department getByEmployeesContaining(Employee e);
 }

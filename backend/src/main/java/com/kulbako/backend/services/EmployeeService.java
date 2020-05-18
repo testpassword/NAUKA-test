@@ -56,11 +56,11 @@ public class EmployeeService {
      * @throws Exception если работник отсутствует в БД.
      */
     @Transactional
-    public void remove(long departmentId, Employee victim) throws Exception {
+    public void remove(Employee victim) throws Exception {
         long id = victim.getId();
         log.info("Запрос к БД на удаление " + id);
         if (empRepo.existsById(id)) {
-            depServ.untieEmployeeFromDepartment(departmentId, victim);
+            depServ.untieEmployeeFromDepartment(victim);
             empRepo.removeById(id);
             log.info(id + " успешно удалён из БД");
         } else {

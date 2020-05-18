@@ -45,6 +45,7 @@ public class DepartmentController {
      * @return http-код, описывающий результат операции.
      */
     @DeleteMapping
+    //TODO: при удалении департамента удалять всех его работников
     public ResponseEntity<String> remove(@Valid @RequestBody Department removable) {
         try {
             depServ.remove(removable);

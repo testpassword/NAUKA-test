@@ -7,7 +7,7 @@ Content-Type: application/json
         "id": "2",
         "name": "abc",
          "surname": "b",
-         "bornDate": "2020-05-15",
+         "bornDate": "343445",
          "residency": "d",
          "role": "TIMEKEEPER",
          "days": []

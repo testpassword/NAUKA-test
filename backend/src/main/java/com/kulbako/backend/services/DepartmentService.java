@@ -104,9 +104,9 @@ public class DepartmentService {
      * @throws Exception если департамента с заданным номером не существует.
      */
     @Transactional
-    public void untieEmployeeFromDepartment(long departmentId, Employee victim) throws Exception {
-        log.info("Запрос на отвязку работника " + victim.getId() + " к департаменту " + departmentId);
-        Department department = this.get(departmentId);
+    public void untieEmployeeFromDepartment(Employee victim) throws Exception {
+        Department department = depRepo.getByEmployeesContaining(victim);
+        log.info("Запрос на отвязку работника " + victim.getId() + " от департамента " + department.getId());
         department.getEmployees().remove(victim);
         depRepo.save(department);
     }

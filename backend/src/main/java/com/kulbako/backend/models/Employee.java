@@ -4,7 +4,6 @@ import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,12 +21,12 @@ public class Employee implements Serializable {
     //TODO: email field
     @NotNull private String name;
     @NotNull private String surname;
-    @NotNull private Date bornDate;
+    @NotNull private long bornDate; //храним дату в млсек. чтобы избежать проблем с сериализацией
     private String residency;
     @Enumerated(EnumType.STRING) private Role role;
     @ElementCollection private List<String> days;
 
-    public Employee(@NotNull String name, @NotNull String surname, @NotNull Date bornDate, String residency, Role role) {
+    public Employee(@NotNull String name, @NotNull String surname, @NotNull long bornDate, String residency, Role role) {
         this.name = name;
         this.surname = surname;
         this.bornDate = bornDate;
@@ -46,6 +45,7 @@ public class Employee implements Serializable {
         return id == employee.id &&
                 Objects.equals(name, employee.name) &&
                 Objects.equals(surname, employee.surname) &&
+                bornDate == employee.bornDate &&
                 Objects.equals(residency, employee.residency) &&
                 role == employee.role;
     }

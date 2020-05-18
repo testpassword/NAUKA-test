@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<HBox alignment="TOP_CENTER" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GUIController">
+<HBox alignment="CENTER" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GUIController">
    <children>
       <VBox>
          <children>
@@ -14,7 +14,7 @@
 
            </ListView>
              </TitledPane>
-            <HBox spacing="5.0">
+            <HBox alignment="BOTTOM_CENTER" spacing="5.0">
                <children>
                   <TextField fx:id="deptInput" promptText="название департамента" />
                   <Button fx:id="addDeptBtn" mnemonicParsing="false" onAction="#addDeptBtnClick" text="Добавить" textFill="#1c6fd5" />
@@ -34,9 +34,10 @@
                   <Font name="System Bold" size="13.0" />
                </font></Label>
             <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE" />
-            <HBox spacing="5.0">
+            <HBox alignment="BOTTOM_CENTER" spacing="5.0">
                <children>
-                  <TextField fx:id="empInput" promptText="параметры работника">
+                  <TextField fx:id="empDepNumberInput" maxWidth="50.0" promptText="№ деп." />
+                  <TextField fx:id="empInput" prefWidth="300.0" promptText="характеристика работника">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin></TextField>
