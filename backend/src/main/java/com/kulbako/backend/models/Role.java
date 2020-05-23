@@ -6,7 +6,10 @@ package com.kulbako.backend.models;
  * @version 1.1
  */
 public enum Role {
-    TIMEKEEPER(false), DEPARTMENT_ADMIN(false), EMPLOYEE_ADMIN(false);
+    EMPTY(false),
+    TIMEKEEPER(false),
+    DEPARTMENT_ADMIN(false),
+    EMPLOYEE_ADMIN(false);
 
     private boolean isRemote;
 

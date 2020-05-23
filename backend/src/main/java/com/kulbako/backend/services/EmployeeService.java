@@ -51,14 +51,13 @@ public class EmployeeService {
 
     /**
      * Удаляет запись о работнике из БД.
-     * @param departmentId номер департамента к которому прикреплён работник.
      * @param victim работник, запись о котором необходимо удалить.
      * @throws Exception если работник отсутствует в БД.
      */
     @Transactional
     public void remove(Employee victim) throws Exception {
         long id = victim.getId();
-        log.info("Запрос к БД на удаление " + id);
+        log.info("Запрос к БД на удаление работника" + id);
         if (empRepo.existsById(id)) {
             depServ.untieEmployeeFromDepartment(victim);
             empRepo.removeById(id);
@@ -78,7 +77,7 @@ public class EmployeeService {
     @Transactional
     public void modify(Employee updatable) throws Exception {
         long id = updatable.getId();
-        log.info("Запрос к БД на модификацию " + id);
+        log.info("Запрос к БД на модификацию работника" + id);
         if (empRepo.existsById(id)) {
             empRepo.save(updatable);
             log.info("Данные " + id + " успешно изменены");
@@ -97,7 +96,7 @@ public class EmployeeService {
     @Transactional
     public void add(long departmentId, Employee newbie) throws Exception {
         long id = newbie.getId();
-        log.info("Запрос к БД на добавление " + id);
+        log.info("Запрос к БД на добавление работника" + id);
         if (empRepo.existsById(id)) {
             String errorMessage = "Не удалось добавить работника, т.к. " + id + " уже есть в БД";
             log.info(errorMessage);

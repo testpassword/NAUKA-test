@@ -35,6 +35,7 @@ public class DepartmentController {
             depServ.add(addable);
             return new ResponseEntity<>("Департамент добавлен в БД", HttpStatus.CREATED);
         } catch (Exception e) {
+            log.error(e.getLocalizedMessage());
             return new ResponseEntity<>("Такой департамент уже существует", HttpStatus.BAD_REQUEST);
         }
     }
@@ -51,6 +52,7 @@ public class DepartmentController {
             depServ.remove(removable);
             return new ResponseEntity<>("Департамент удалён из БД", HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getLocalizedMessage());
             return new ResponseEntity<>("Такой департамент не существует", HttpStatus.NOT_FOUND);
         }
     }

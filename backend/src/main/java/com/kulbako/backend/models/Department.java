@@ -12,7 +12,7 @@ import java.util.Set;
  * @author Артемий Кульбако
  * @version 1.4
  */
-@Data @Entity @Table(name = "departments")
+@Entity @Table(name = "departments")
 public class Department implements Serializable {
 
     @Transient private static final long serialVersionUID = 4L;
@@ -30,7 +30,18 @@ public class Department implements Serializable {
     }
 
     public Department() {}
-    //get и set методы определены аннотацией lombok
+
+    public long getId() { return id; }
+
+    public void setId(long id) { this.id = id; }
+
+    public String getName() { return name; }
+
+    public void setName(String name) { this.name = name; }
+
+    public Set<Employee> getEmployees() { return employees; }
+
+    public void setEmployees(Set<Employee> employees) { this.employees = employees; }
 
     @Override
     public boolean equals(Object o) {

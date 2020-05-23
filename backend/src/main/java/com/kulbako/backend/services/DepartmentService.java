@@ -54,7 +54,7 @@ public class DepartmentService {
     @Transactional
     public void remove(Department target) throws Exception {
         long id = target.getId();
-        log.info("Запрос к БД на удаление " + id);
+        log.info("Запрос к БД на удаление департамента" + id);
         if (depRepo.existsById(id)) {
             depRepo.removeById(id);
             log.info(id + " успешно удалён из БД");
@@ -72,7 +72,7 @@ public class DepartmentService {
      */
     @Transactional
     public void add(Department newbie) throws Exception {
-        log.info("Запрос к БД на добавление " + newbie);
+        log.info("Запрос к БД на добавление департамента" + newbie);
         if (depRepo.existsByName(newbie.getName())) {
             String errorMessage = "Не удалось добавить департамент, т.к. " + newbie + " уже есть в БД";
             log.info(errorMessage);
@@ -99,7 +99,6 @@ public class DepartmentService {
 
     /**
      * Открепляет работника от департамента.
-     * @param departmentId номер департамента, от которого будет отвязан работник.
      * @param victim открепляемый работник.
      * @throws Exception если департамента с заданным номером не существует.
      */

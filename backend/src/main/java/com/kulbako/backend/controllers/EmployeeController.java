@@ -37,6 +37,7 @@ public class EmployeeController {
             empServ.add(addable.getDepartmentId(), addable.getEmployee());
             return new ResponseEntity<>("Работник добавлен в БД", HttpStatus.CREATED);
         } catch (Exception e) {
+            log.error(e.getLocalizedMessage());
             return new ResponseEntity<>("Такой работник уже существует", HttpStatus.BAD_REQUEST);
         }
     }
@@ -52,6 +53,7 @@ public class EmployeeController {
             empServ.remove(removable);
             return new ResponseEntity<>("Работник удалён из БД", HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getLocalizedMessage());
             return new ResponseEntity<>("Такой работник не существует", HttpStatus.NOT_FOUND);
         }
     }
@@ -67,6 +69,7 @@ public class EmployeeController {
             empServ.modify(modifiable.getEmployee());
             return new ResponseEntity<>("Данные работника изменены", HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getLocalizedMessage());
             return new ResponseEntity<>("Такой работник не существует", HttpStatus.NOT_FOUND);
         }
     }

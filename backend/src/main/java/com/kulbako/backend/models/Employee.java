@@ -1,10 +1,10 @@
 package com.kulbako.backend.models;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -12,30 +12,57 @@ import java.util.Objects;
  * @author Артемий Кульбако
  * @version 1.6
  */
-@Data @Entity @Table(name = "employees")
+@Entity @Table(name = "employees")
 public class Employee implements Serializable {
 
     @Transient private static final long serialVersionUID = 4L;
     @Id @GeneratedValue(strategy=GenerationType.AUTO) long id;
-    //TODO: аватар
-    //TODO: email field
     @NotNull private String name;
     @NotNull private String surname;
-    @NotNull private long bornDate; //храним дату в млсек. чтобы избежать проблем с сериализацией
+    @JsonFormat(pattern="yyyy-MM-dd") private Date bornDate;
     private String residency;
+    @Embedded private WorkingCalendar calendar;
     @Enumerated(EnumType.STRING) private Role role;
-    @ElementCollection private List<String> days;
 
-    public Employee(@NotNull String name, @NotNull String surname, @NotNull long bornDate, String residency, Role role) {
+    public Employee(@NotNull String name, @NotNull String surname, @NotNull Date bornDate, String residency, Role role,
+                    WorkingCalendar calendar) {
         this.name = name;
         this.surname = surname;
         this.bornDate = bornDate;
         this.residency = residency;
         this.role = role;
+        this.calendar = calendar;
     }
 
     public Employee() {}
-    //get и set методы определены аннотацией lombok
+
+    public long getId() { return id; }
+
+    public void setId(long id) { this.id = id; }
+
+    public String getName() { return name; }
+
+    public void setName(String name) { this.name = name; }
+
+    public String getSurname() { return surname; }
+
+    public void setSurname(String surname) { this.surname = surname; }
+
+    public Date getBornDate() { return bornDate; }
+
+    public void setBornDate(Date bornDate) { this.bornDate = bornDate; }
+
+    public String getResidency() { return residency; }
+
+    public void setResidency(String residency) { this.residency = residency; }
+
+    public WorkingCalendar getCalendar() { return calendar; }
+
+    public void setCalendar(WorkingCalendar calendar) { this.calendar = calendar; }
+
+    public Role getRole() { return role; }
+
+    public void setRole(Role role) { this.role = role; }
 
     @Override
     public boolean equals(Object o) {
@@ -45,7 +72,7 @@ public class Employee implements Serializable {
         return id == employee.id &&
                 Objects.equals(name, employee.name) &&
                 Objects.equals(surname, employee.surname) &&
-                bornDate == employee.bornDate &&
+                bornDate.equals(employee.bornDate) &&
                 Objects.equals(residency, employee.residency) &&
                 role == employee.role;
     }

@@ -2,6 +2,7 @@ package com.kulbako.backend;
 
 import com.kulbako.backend.models.Employee;
 import com.kulbako.backend.models.Role;
+import com.kulbako.backend.models.WorkingCalendar;
 import com.kulbako.backend.services.EmployeeService;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,8 @@ class EmployeesServiceTest {
 
     @Test @Order(1)
     public void add() throws Exception {
-        Employee test = new Employee("Lupa", "Pupovich",System.currentTimeMillis(), "TestStreet", Role.TIMEKEEPER);
+        Employee test = new Employee("Lupa", "Pupovich",new Date(System.currentTimeMillis()), "TestStreet",
+                Role.TIMEKEEPER, new WorkingCalendar());
         test.setId(0);
         service.add(0, test);
         Employee test1 = service.get(0);
@@ -27,7 +29,8 @@ class EmployeesServiceTest {
 
     @Test @Order(2)
     public void get() throws Exception {
-        Employee test = new Employee("qw", "er", System.currentTimeMillis(), "TestStreet", Role.EMPLOYEE_ADMIN);
+        Employee test = new Employee("qw", "er", new Date(System.currentTimeMillis()), "TestStreet",
+                Role.EMPLOYEE_ADMIN, new WorkingCalendar());
         test.setId(0);
         service.add(0, test);
         Employee test1 = service.get(0);
@@ -39,13 +42,22 @@ class EmployeesServiceTest {
 
     @Test
     public void getAll() throws Exception {
-        Employee a = new Employee("a", "b", System.currentTimeMillis(), "TestStreet", Role.EMPLOYEE_ADMIN);
-        Employee b = new Employee("b", "c", System.currentTimeMillis(), "TestStreet", Role.EMPLOYEE_ADMIN);
+        Employee a = new Employee("a", "b", new Date(System.currentTimeMillis()), "TestStreet",
+                Role.EMPLOYEE_ADMIN, new WorkingCalendar());
+        Employee b = new Employee("b", "c", new Date(System.currentTimeMillis()), "TestStreet",
+                Role.EMPLOYEE_ADMIN, new WorkingCalendar());
         service.add(0, a);
         service.add(0, b);
         assertThat(service.getAll().size()).isNotZero().isNotNegative();
     }
 
     @Test
-    public void modify() {}
+    public void modify() {
+        /**
+         * Создать
+         * Модифицировать
+         * Получить
+         * Сравнить
+         */
+    }
 }
