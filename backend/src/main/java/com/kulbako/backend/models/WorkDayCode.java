@@ -6,24 +6,19 @@ package com.kulbako.backend.models;
  * @version 1.0
  */
 public enum WorkDayCode {
-    FULL_DAY {
-        //полный рабочий день
+    FULL_DAY {//полный рабочий день
         @Override public String toString() { return "Я"; }
         },
-    UNKNOWN_LACK {
-        //отсутствие на рабочее место по невыясненным причинам
+    UNKNOWN_LACK {//отсутствие на рабочее место по невыясненным причинам
         @Override public String toString() { return "Н"; }
         },
-    WEEKEND {
-        //выходные и праздничные дни
+    WEEKEND {//выходные и праздничные дни
         @Override public String toString() { return "В"; }
         },
-    WEEKEND_WORK {
-        //работа в праздничные и выходные дни; а также работа в праздничные и выходные дни, при нахождении в командировке
+    WEEKEND_WORK {//работа в праздничные и выходные дни; а также работа в праздничные и выходные дни, при нахождении в командировке
         @Override public String toString() { return "Рв"; }
     },
-    TEMP_INOPERABILITY {
-        //дни временной нетрудоспособности
+    TEMP_INOPERABILITY {//дни временной нетрудоспособности
         @Override public String toString() { return "Б"; }
     },
     BUSSINESS_TRIP {
@@ -33,24 +28,19 @@ public enum WorkDayCode {
          */
         @Override public String toString() { return "К"; }
     },
-    PAID_HOLIDAY {
-        //ежегодный основной оплаченный отпуск
+    PAID_HOLIDAY {//ежегодный основной оплаченный отпуск
         @Override public String toString() { return "ОТ"; }
     },
-    UNPAID_HOLIDAY {
-        //неоплачиваемый отпуск
+    UNPAID_HOLIDAY {//неоплачиваемый отпуск
         @Override public String toString() { return "До"; }
     },
-    BUSINESS_DAY {
-        //хозяйственный день
+    BUSINESS_DAY {//хозяйственный день
         @Override public String toString() { return "Хд"; }
     },
-    STUDY_HOLIDAY {
-        //отпуск на период обучения
+    STUDY_HOLIDAY {//отпуск на период обучения
         @Override public String toString() { return "У"; }
     },
-    MATERNITY_LEAVE {
-        //Отпуск по уходу за ребенком
+    MATERNITY_LEAVE {//Отпуск по уходу за ребенком
         @Override public String toString() { return "Ож"; }
     }
 }
