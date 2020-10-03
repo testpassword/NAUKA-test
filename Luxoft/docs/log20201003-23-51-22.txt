@@ -1,0 +1,14 @@
+2020-10-03 23:51:24,758 INFO rpr.engine.init [12424]:  RPR Core version: 1.35.0 build 0x6a03c5b6
+2020-10-03 23:51:24,773 INFO rpr.engine.init [12424]:  Image Filters version 1.5.1 build 0xefd92438
+2020-10-03 23:51:24,775 INFO rpr.default [12424]:  rprsdk_bin_path: C:\Users\pugalol\AppData\Roaming\Blender Foundation\Blender\2.90\scripts\addons\rprblender
+Blender 2.90.1 (hash 3e85bb34d0d7 built 2020-09-23 08:36:20)
+Read prefs: C:\Users\pugalol\AppData\Roaming\Blender Foundation\Blender\2.90\config\userpref.blend
+found bundled python: C:\Program Files\Blender Foundation\Blender 2.90\2.90\python
+Read blend: V:/projects/Test-tasks/Luxoft/docs/scene.blend
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "V:\projects\Test-tasks\Luxoft\src\render.py", line 25, in <module>
+    if __name__ == "__main__": render()
+  File "V:\projects\Test-tasks\Luxoft\src\render.py", line 16, in render
+    bpy.context.scene.display.render_aa = AAalgorithm
+TypeError: bpy_struct: item.attr = val: enum "2" not found in ('OFF', 'FXAA', '5', '8', '11', '16', '32')
