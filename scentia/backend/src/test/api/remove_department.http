@@ -1,7 +1,0 @@
-DELETE localhost:8088/department
-Content-Type: application/json
-
-{
-    "id": 1,
-    "name": "TESTERS"
- }

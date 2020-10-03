@@ -1,0 +1,24 @@
+2020-10-03 12:47:37,563 INFO rpr.engine.init [5172]:  RPR Core version: 1.35.0 build 0x6a03c5b6
+2020-10-03 12:47:37,576 INFO rpr.engine.init [5172]:  Image Filters version 1.5.1 build 0xefd92438
+2020-10-03 12:47:37,578 INFO rpr.default [5172]:  rprsdk_bin_path: C:\Users\pugalol\AppData\Roaming\Blender Foundation\Blender\2.90\scripts\addons\rprblender
+Blender 2.90.1 (hash 3e85bb34d0d7 built 2020-09-23 08:36:20)
+Read prefs: C:\Users\pugalol\AppData\Roaming\Blender Foundation\Blender\2.90\config\userpref.blend
+found bundled python: C:\Program Files\Blender Foundation\Blender 2.90\2.90\python
+Read blend: V:/projects/Test-tasks/Luxoft/docs/test.blend
+Fra:1 Mem:47.00M (Peak 47.03M) | Время:00:00.00 | Start syncing
+Fra:1 Mem:47.00M (Peak 47.03M) | Время:00:00.54 | Syncing object (0/3): Cube
+Fra:1 Mem:47.01M (Peak 47.03M) | Время:00:00.54 | Syncing object (1/3): Light
+Fra:1 Mem:47.00M (Peak 47.03M) | Время:00:00.54 | Syncing instances 0%
+Fra:1 Mem:47.00M (Peak 47.03M) | Время:00:00.54 | Syncing instances 100%
+Fra:1 Mem:47.01M (Peak 47.03M) | Время:00:00.54 | Syncing particles
+Fra:1 Mem:47.01M (Peak 47.03M) | Время:00:00.55 | Finish syncing
+Fra:1 Mem:47.01M (Peak 47.03M) | Время:00:00.55 | Start render
+Fra:1 Mem:47.01M (Peak 47.03M) | Время:00:00.55 | Render Time: 0.0 sec | Samples: 0/16
+Fra:1 Mem:47.01M (Peak 86.56M) | Время:00:10.88 | Render Time: 10.3 sec | Samples: 4/16
+Fra:1 Mem:47.01M (Peak 86.56M) | Время:00:12.49 | Render Time: 11.9 sec | Samples: 8/16
+Fra:1 Mem:47.01M (Peak 86.56M) | Время:00:13.66 | Render Time: 13.1 sec | Samples: 12/16
+Fra:1 Mem:47.01M (Peak 86.56M) | Время:00:14.72 | Finish render
+Fra:1 Mem:46.84M (Peak 86.56M) | Время:00:14.72 | Сцена: Scene Вершин:0 Граней:0 Ламп:0
+Saved: 'V:\projects\Test-tasks\Luxoft\docs\image20201003-12-47-35_1.png'
+ Time: 00:15.40 (Saving: 00:00.67)
+

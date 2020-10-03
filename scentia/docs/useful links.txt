@@ -1,2 +1,0 @@
-https://vaadin.com/blog/saving-and-displaying-images-using-jpa
-https://vladmihalcea.com/the-best-way-to-map-a-onetomany-association-with-jpa-and-hibernate/

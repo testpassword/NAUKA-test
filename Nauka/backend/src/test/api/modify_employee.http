@@ -1,0 +1,15 @@
+POST localhost:8088/employee
+Content-Type: application/json
+
+{
+    "departmentId": "1",
+    "employee": {
+        "id": "2",
+        "name": "abc",
+         "surname": "b",
+         "bornDate": "343445",
+         "residency": "d",
+         "role": "TIMEKEEPER",
+         "days": []
+    }
+}

@@ -1,0 +1,12 @@
+DELETE localhost:8088/employee
+Content-Type: application/json
+
+{
+    "id": "2",
+    "name": "a",
+    "surname": "b",
+    "bornDate": "343445",
+    "residency": "d",
+    "role": "TIMEKEEPER",
+    "days": []
+}

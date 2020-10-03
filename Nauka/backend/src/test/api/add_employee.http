@@ -1,0 +1,13 @@
+PUT localhost:8088/employee
+Content-Type: application/json
+
+{
+    "departmentId": "1",
+    "employee": {
+        "name": "abc2",
+         "surname": "b",
+         "bornDate": "2020-05-19",
+         "residency": "d",
+         "role": "TIMEKEEPER"
+    }
+}
