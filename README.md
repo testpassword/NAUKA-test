@@ -1,5 +1,6 @@
 # Тестовые задания
-Тестовые задания у различных компаний
+Тестовые задания для различных компаний
 
-1. [NAUKA](scentia/README.md)
-2. [Vigo](refactor-test/README.md)
+1. [NAUKA](Nauka/README.md)
+2. [Vigo](VigoLab/README.md)
+3. [Luxoft](Luxoft/README.md)

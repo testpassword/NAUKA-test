@@ -1,65 +1,81 @@
+# Kulbako Artemy 2020 for Luxoft
+
 import argparse
 import subprocess
 from datetime import datetime
+import os
 from os import path
 import sys
+import zipfile
+from shutil import rmtree
+import json
 
-# Kulbako Artemy 2020 for Luxoft
 
+# Проверяет на корректность те аргументы, которые не может проверить парсер
 def checkArguments(args):
-    filePath = args.input
-    if not path.exists(filePath): sys.exit("Path didn't exist or denied")
-    extension = path.splitext(filePath)[-1].lower()
-    if not extension == ".blend":
-        sys.exit("Extension should be .blend")
-    outputPath = args.output
-    if outputPath != "//" or path.exists(outputPath):
+    fp = args.input
+    if not path.exists(fp):
+        sys.exit("Path didn't exist or denied")
+    if not zipfile.is_zipfile(fp):
+        sys.exit("Extension should be .zip")
+    if args.output is None:
+        args.output = path.dirname(fp)
+    if not path.exists(args.output):
         sys.exit("Directory didn't exist")
-    try:
-        w = int(args.width)
-        h = int(args.height)
-        if w <= 0 or h <= 0:
-            raise ValueError()
-    except ValueError:
-        sys.exit("Width and height should be positive integer")
-    prefix = "Chose one of this formats: "
-    availableFormats = ["JPEG", "PNG", "BMP"]
-    if args.format not in availableFormats:
-        sys.exit(prefix + str(availableFormats))
-    try:
-        if int(args.compress) not in [0, 100]:
-            raise ValueError()
-    except ValueError:
-        sys.exit("Compressing ration should be in [1; 100]")
-    availableAntiAliasing = ["OFF", "FXAA", "5", "8", "11", "16", "32"]
-    if args.aa not in availableAntiAliasing:
-        sys.exit(prefix + str(availableAntiAliasing))
+
+
+# Возвращает первую найденную blend-сцену в директории или выбрасывает исключение при их отсутствии
+def findScene(dir):
+    sceneFile = None
+    for file in os.listdir(dir):
+        if file.endswith(".blend"):
+            sceneFile = os.path.join(dir, file)
+            return sceneFile
+    if sceneFile is None:
+        raise FileNotFoundError()
 
 
 def main():
-    #TODO: на вход архив с .blend и тексурами
-    # извлечь все файлы из архива, удалить после выполнения
     parser = argparse.ArgumentParser()
-    parser.add_argument("--input", required=True, help="Path to .blend file")
-    parser.add_argument("--output", default="//", help="Path to output directory")
-    parser.add_argument("--width", default="1920", help="Resolution by X of result image")
-    parser.add_argument("--height", default="1080", help="Resolution by Y of result image")
-    parser.add_argument("--format", default="JPEG", help="File format for render")
-    parser.add_argument("--compress", default="0", help="Compression ratio: 0 = no compression, 100 = max")
-    parser.add_argument("--aa", default="FXAA", help="Use antialiasing: OFF, FXAA or SSAA ration 5, 8, 11, 16, 32")
+    parser.add_argument("--input", required=True, help="Path to .zip file")
+    parser.add_argument("--output", help="Path to output directory")
+    parser.add_argument("--width", type=int, default=1920, help="Resolution by X of result image",
+                        choices=range(2, 15360))
+    parser.add_argument("--height", type=int, default=1080, help="Resolution by Y of result image",
+                        choices=range(2, 15360))
+    parser.add_argument("--format", default="JPEG", help="File format for render", choices=["JPEG", "PNG", "BMP"])
+    parser.add_argument("--compress", type=int, default=0, choices=range(0, 101),
+                        help="Compression ratio: 0 = no compression, 100 = max")
+    parser.add_argument("--aa", default="FXAA", help="Use antialiasing: OFF, FXAA or SSAA ration 5, 8, 11, 16, 32",
+                        choices=["OFF", "FXAA", "5", "8", "11", "16", "32"])
     args = parser.parse_args()
     checkArguments(args)
-    imageName = args.output + "image" + datetime.now().strftime("%Y%m%d-%H-%M-%S")
-    callDir = path.dirname(args.input)
-    command = ["blender", "--background", args.input,
-               "--engine", "RPR",
-               "--python", "render.py",
-               "--", args.width, args.height, imageName, args.format, args.compress, args.aa]
-    with open(callDir + "/log" + datetime.now().strftime("%Y%m%d-%H-%M-%S.txt"), "w", encoding="utf-8") as f:
-        proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True, encoding="utf-8")
-        for line in proc.stdout:
-            sys.stdout.write(line)
-            f.write(line)
+    callDir = path.dirname(args.input)  # получаем директорию с архивом
+    tempDir = callDir + "/render_tmp"
+    try:
+        with zipfile.ZipFile(args.input, "r") as rawData:  # распаковывает архив в временную директорию
+            rawData.extractall(tempDir)
+        sceneFile = findScene(tempDir)  # проверяем наличие blend-сцены
+        imageName = args.output + "/image" + datetime.now().strftime("%Y%m%d-%H-%M-%S")  # задаём имя выходному файлу
+        params = vars(args)  # формируем карту с параметрами рендера
+        params["output"] = imageName
+        params["textures"] = tempDir
+        command = ["blender", "--background", sceneFile,
+                   "--engine", "RPR",
+                   "--python", "render.py",
+                   "--", json.dumps(params)]
+        # Вызываем процесс blender в фоне, передав ему сцену, параметры рендера и скрипт.
+        # Лог одновременно выводится в консоль и файл.
+        with open(callDir + "/log" + datetime.now().strftime("%Y%m%d-%H-%M-%S.txt"), "w", encoding="utf-8") as f:
+            proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True,
+                                    encoding="utf-8")
+            for line in proc.stdout:
+                sys.stdout.write(line)
+                f.write(line)
+    except FileNotFoundError:
+        sys.exit("Can't find .blend file in archive")
+    finally:
+        rmtree(tempDir)  # удаляем за собой временные файлы
 
 
 if __name__ == "__main__": main()
