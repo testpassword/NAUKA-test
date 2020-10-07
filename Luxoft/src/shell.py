@@ -11,7 +11,7 @@ from shutil import rmtree
 import json
 
 
-# Проверяет на корректность те аргументы, которые не может проверить парсер
+# Checks for the correctness of those arguments that the parser cannot check
 def checkArguments(args):
     fp = args.input
     if not path.exists(fp):
@@ -24,7 +24,7 @@ def checkArguments(args):
         sys.exit("Directory didn't exist")
 
 
-# Возвращает первую найденную blend-сцену в директории или выбрасывает исключение при их отсутствии
+# Returns the first found blend scene in the directory, or throws an exception if none are present
 def findScene(dir):
     sceneFile = None
     for file in os.listdir(dir):
@@ -50,22 +50,22 @@ def main():
                         choices=["OFF", "FXAA", "5", "8", "11", "16", "32"])
     args = parser.parse_args()
     checkArguments(args)
-    callDir = path.dirname(args.input)  # получаем директорию с архивом
+    callDir = path.dirname(args.input)  # get the directory with the archive
     tempDir = callDir + "/render_tmp"
     try:
         with zipfile.ZipFile(args.input, "r") as rawData:  # распаковывает архив в временную директорию
             rawData.extractall(tempDir)
-        sceneFile = findScene(tempDir)  # проверяем наличие blend-сцены
-        imageName = args.output + "/image" + datetime.now().strftime("%Y%m%d-%H-%M-%S")  # задаём имя выходному файлу
-        params = vars(args)  # формируем карту с параметрами рендера
+        sceneFile = findScene(tempDir)  # unpacks the archive into a temporary directory
+        imageName = args.output + "/image" + datetime.now().strftime("%Y%m%d-%H-%M-%S")  # give a name to the output file
+        params = vars(args)  # form a map with render parameters
         params["output"] = imageName
         params["textures"] = tempDir
         command = ["blender", "--background", sceneFile,
                    "--engine", "RPR",
                    "--python", "render.py",
                    "--", json.dumps(params)]
-        # Вызываем процесс blender в фоне, передав ему сцену, параметры рендера и скрипт.
-        # Лог одновременно выводится в консоль и файл.
+        # We call the blender process in the background, passing it the scene, render parameters and script.
+        # The log is simultaneously output to the console and file.
         with open(callDir + "/log" + datetime.now().strftime("%Y%m%d-%H-%M-%S.txt"), "w", encoding="utf-8") as f:
             proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True,
                                     encoding="utf-8")
@@ -75,7 +75,7 @@ def main():
     except FileNotFoundError:
         sys.exit("Can't find .blend file in archive")
     finally:
-        rmtree(tempDir)  # удаляем за собой временные файлы
+        rmtree(tempDir)  # delete temporary files after ourselves
 
 
 if __name__ == "__main__": main()

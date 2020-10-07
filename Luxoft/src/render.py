@@ -8,7 +8,7 @@ import json
 import glob
 
 
-# Применяет текстуру к материалы, если они имеют одинаковое название
+# Applies texture to materials if they have the same name
 def applyTextures(materials, textures):
     for m in materials:
         for t in textures:
@@ -21,7 +21,7 @@ def applyTextures(materials, textures):
                 m.node_tree.links.new(bsdf.inputs['Base Color'], texImage.outputs['Color'])
 
 
-# Устанавливает параметры рендера и запускает его
+# Sets render parameters and launches it
 def render():
     argv = sys.argv
     argv = argv[argv.index("--") + 1:]

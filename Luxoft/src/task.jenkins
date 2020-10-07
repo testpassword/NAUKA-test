@@ -1,0 +1,35 @@
+/*
+https://www.jenkins.io/doc/book/pipeline/syntax/
+https://stackoverflow.com/questions/43003510/can-jenkins-job-execute-shell-or-windows-command-conditionally-based-on-agent-os
+https://stackoverflow.com/questions/43587964/jenkins-pipeline-if-else-not-working
+https://stackoverflow.com/questions/43587964/jenkins-pipeline-if-else-not-working
+https://stackoverflow.com/questions/51480440/file-parameter-in-declarative-pipeline
+*/
+pipeline {
+    agent { label 'gpu' }
+    parameters {
+        file(name: 'INPUT_FILE', description: 'Contains .blend-scene and textures for rendering')
+        string(name: 'WIDTH', defaultValue: '1920', description: 'Resolution by X of result image', trim: true)
+        string(name: 'HEIGHT', defaultValue: '1080', description: 'Resolution by Y of result image', trim: true)
+        choice(name: 'FORMAT', choices: ['JPEG', 'PNG', 'BMP'], description: 'File format for render')
+        string(name: 'COMPRESSION', defaultValue: '0', description: 'Compression ratio: 0 = no compression, 100 = max', trim: true)
+        choice(name: 'ANTIALIASING_ALGORITHM', choices: ['OFF', 'FXAA', 'SSAA 5x', 'SSAA 8x', 'SSAA 11x', 'SSAA 16x', 'SSAA 32x'])
+    }
+    stages {
+        stage('Render') {
+            steps {
+                script {
+                    def command = "python shell.py " +
+                            "--input $INPUT_FILE " +
+                            "--width $WIDTH " +
+                            "--height $HEIGHT " +
+                            "--format $FORMAT " +
+                            "--compress $COMPRESSION " +
+                            "--aa $ANTIALIASING_ALGORITHM"
+                    if (env.OS == 'Windows_NT') bat """$command"""
+                    else sh """$command"""
+                }
+            }
+        }
+    }
+}
