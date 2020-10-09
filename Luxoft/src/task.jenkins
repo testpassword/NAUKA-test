@@ -18,7 +18,8 @@ pipeline {
     stages {
         stage('Render') {
             steps {
-                script {
+                echo 'Executing render stage'
+                /*script {
                     def command = "python shell.py " +
                             "--input $INPUT_FILE " +
                             "--width $WIDTH " +
@@ -28,7 +29,7 @@ pipeline {
                             "--aa $ANTIALIASING_ALGORITHM"
                     if (env.OS == 'Windows_NT') bat """$command"""
                     else sh """$command"""
-                }
+                }*/
             }
         }
     }
