@@ -15,13 +15,16 @@ import json
 def checkArguments(args):
     fp = args.input
     if not path.exists(fp):
-        sys.exit("Path didn't exist or denied")
+        sys.exit("Input path " + fp + " didn't exist or denied")
     if not zipfile.is_zipfile(fp):
         sys.exit("Extension should be .zip")
     if args.output is None:
-        args.output = path.dirname(fp)
+        #if path.dirname(fp) == "":
+        #    args.output = "./"
+        #else:
+            args.output = path.dirname(fp)
     if not path.exists(args.output):
-        sys.exit("Directory didn't exist")
+        sys.exit("Directory " + args.output + " didn't exist")
 
 
 # Returns the first found blend scene in the directory, or throws an exception if none are present
@@ -51,22 +54,25 @@ def main():
     args = parser.parse_args()
     checkArguments(args)
     callDir = path.dirname(args.input)  # get the directory with the archive
-    tempDir = callDir + "/render_tmp"
+    tempDir = os.path.join(callDir, "render_tmp")
+    os.mkdir(tempDir)
     try:
         with zipfile.ZipFile(args.input, "r") as rawData:  # распаковывает архив в временную директорию
             rawData.extractall(tempDir)
         sceneFile = findScene(tempDir)  # unpacks the archive into a temporary directory
+        logName = args.output + "/log" + datetime.now().strftime("%Y%m%d-%H-%M-%S.txt")
         imageName = args.output + "/image" + datetime.now().strftime("%Y%m%d-%H-%M-%S")  # give a name to the output file
         params = vars(args)  # form a map with render parameters
         params["output"] = imageName
-        params["textures"] = tempDir
+        params["textures"] = path.dirname(sceneFile)
+        renderScriptPath = os.getenv("bpr", "render.py") # get script path from env variable or from current directory
         command = ["blender", "--background", sceneFile,
                    "--engine", "RPR",
-                   "--python", "render.py",
+                   "--python", renderScriptPath,
                    "--", json.dumps(params)]
         # We call the blender process in the background, passing it the scene, render parameters and script.
         # The log is simultaneously output to the console and file.
-        with open(callDir + "/log" + datetime.now().strftime("%Y%m%d-%H-%M-%S.txt"), "w", encoding="utf-8") as f:
+        with open(logName, "w", encoding="utf-8") as f:
             proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True,
                                     encoding="utf-8")
             for line in proc.stdout:

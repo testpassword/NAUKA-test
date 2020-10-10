@@ -7,6 +7,10 @@ from os import path
 import json
 import glob
 
+def absoluteFilePaths(directory):
+    for dirpath,_,filenames in os.walk(directory):
+        for f in filenames:
+            yield os.path.abspath(os.path.join(dirpath, f))
 
 # Applies texture to materials if they have the same name
 def applyTextures(materials, textures):
@@ -17,7 +21,9 @@ def applyTextures(materials, textures):
                 m.use_nodes = True
                 bsdf = m.node_tree.nodes["Principled BSDF"]
                 texImage = m.node_tree.nodes.new('ShaderNodeTexImage')
-                texImage.image = bpy.data.images.load(t)
+                fullImagePath = os.path.abspath(t)
+                print(fullImagePath)
+                texImage.image = bpy.data.images.load(fullImagePath)
                 m.node_tree.links.new(bsdf.inputs['Base Color'], texImage.outputs['Color'])
 
 
