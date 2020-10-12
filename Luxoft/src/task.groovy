@@ -1,7 +1,7 @@
 pipeline {
     agent none
     parameters {
-        string(name: 'INPUT_FILE', description: 'Absolute path to file')
+        string(name: 'INPUT_FILE', description: 'Absolute path to file', trim: true)
         string(name: 'WIDTH', defaultValue: '1280', description: 'Resolution by X of result image', trim: true)
         string(name: 'HEIGHT', defaultValue: '720', description: 'Resolution by Y of result image', trim: true)
         choice(name: 'FORMAT', choices: ['JPEG', 'PNG', 'BMP'], description: 'File format for render')
@@ -35,8 +35,8 @@ pipeline {
                             "--format $FORMAT " +
                             "--compress $COMPRESSION " +
                             "--aa $ANTIALIASING_ALGORITHM"
-                    if (env.OS == 'Windows_NT') bat """$command"""
-                    else sh """$command"""
+                    if (isUnix()) sh """$command"""
+                    else bat """$command"""
                 }
             }
             post {

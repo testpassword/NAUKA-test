@@ -7,10 +7,12 @@ from os import path
 import json
 import glob
 
+
 def absoluteFilePaths(directory):
-    for dirpath,_,filenames in os.walk(directory):
+    for dirpath, _, filenames in os.walk(directory):
         for f in filenames:
             yield os.path.abspath(os.path.join(dirpath, f))
+
 
 # Applies texture to materials if they have the same name
 def applyTextures(materials, textures):
