@@ -42,9 +42,9 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", required=True, help="Path to .zip file")
     parser.add_argument("--output", help="Path to output directory")
-    parser.add_argument("--width", type=int, default=1920, help="Resolution by X of result image",
+    parser.add_argument("--width", type=int, default=1280, help="Resolution by X of result image",
                         choices=range(2, 15360))
-    parser.add_argument("--height", type=int, default=1080, help="Resolution by Y of result image",
+    parser.add_argument("--height", type=int, default=720, help="Resolution by Y of result image",
                         choices=range(2, 15360))
     parser.add_argument("--format", default="JPEG", help="File format for render", choices=["JPEG", "PNG", "BMP"])
     parser.add_argument("--compress", type=int, default=0, choices=range(0, 101),
