@@ -3,4 +3,4 @@
 
 1. [NAUKA](Nauka/README.md)
 2. [Vigo](VigoLab/README.md)
-3. [Luxoft](Luxoft/README.md)
+3. [Luxoft](https://github.com/testpassword/Remote-render-service)
